@@ -25,6 +25,7 @@
 #include <jni/ReservationListenerWrapper.h>
 #include <Storages/SubstraitSource/ReadBufferBuilder.h>
 
+
 bool inside_main = true;
 
 #ifdef __cplusplus
@@ -80,6 +81,7 @@ std::string jstring2string(JNIEnv * env, jstring jStr)
 
 extern "C" {
 #endif
+
 
 extern void registerAllFunctions();
 extern void init(const std::string &);
@@ -270,7 +272,8 @@ jboolean Java_io_glutenproject_vectorized_BatchIterator_nativeHasNext(JNIEnv * e
 {
     LOCAL_ENGINE_JNI_METHOD_START
     local_engine::LocalExecutor * executor = reinterpret_cast<local_engine::LocalExecutor *>(executor_address);
-    return executor->hasNext();
+    bool x = executor->hasNext();
+    return x;
     LOCAL_ENGINE_JNI_METHOD_END(env, false)
 }
 
@@ -279,6 +282,7 @@ jlong Java_io_glutenproject_vectorized_BatchIterator_nativeCHNext(JNIEnv * env, 
     LOCAL_ENGINE_JNI_METHOD_START
     local_engine::LocalExecutor * executor = reinterpret_cast<local_engine::LocalExecutor *>(executor_address);
     DB::Block * column_batch = executor->nextColumnar();
+    LOG_DEBUG(&Poco::Logger::get("jni"), "row size of the column batch: {}", column_batch->rows());
     return reinterpret_cast<Int64>(column_batch);
     LOCAL_ENGINE_JNI_METHOD_END(env, -1)
 }
