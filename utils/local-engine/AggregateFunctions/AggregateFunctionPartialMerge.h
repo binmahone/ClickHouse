@@ -9,12 +9,18 @@
 
 namespace DB
 {
-struct Settings;
-
-namespace ErrorCodes
-{
-    extern const int ILLEGAL_TYPE_OF_ARGUMENT;
+    namespace ErrorCodes
+    {
+        extern const int ILLEGAL_TYPE_OF_ARGUMENT;
+    }
 }
+
+namespace local_engine
+{
+
+using namespace DB;
+
+struct Settings;
 
 /**
  * this class is copied from AggregateFunctionMerge with little enhancement.

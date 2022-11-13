@@ -23,7 +23,7 @@ extern const int BAD_ARGUMENTS;
 using namespace DB;
 namespace fs = std::filesystem;
 
-namespace DB {
+namespace local_engine {
     extern void registerAggregateFunctionCombinatorPartialMerge(AggregateFunctionCombinatorFactory &);
 }
 
@@ -37,7 +37,7 @@ void registerAllFunctions()
 
     registerAggregateFunctions();
     auto & factory = AggregateFunctionCombinatorFactory::instance();
-    registerAggregateFunctionCombinatorPartialMerge(factory);
+    local_engine::registerAggregateFunctionCombinatorPartialMerge(factory);
 
 }
 constexpr auto CH_BACKEND_CONF_PREFIX = "spark.gluten.sql.columnar.backend.ch";

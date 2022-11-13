@@ -272,8 +272,7 @@ jboolean Java_io_glutenproject_vectorized_BatchIterator_nativeHasNext(JNIEnv * e
 {
     LOCAL_ENGINE_JNI_METHOD_START
     local_engine::LocalExecutor * executor = reinterpret_cast<local_engine::LocalExecutor *>(executor_address);
-    bool x = executor->hasNext();
-    return x;
+    return executor->hasNext();
     LOCAL_ENGINE_JNI_METHOD_END(env, false)
 }
 
