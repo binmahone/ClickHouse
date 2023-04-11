@@ -57,7 +57,7 @@ add_library(${LOCALENGINE_SHARED_LIB} SHARED
 
 
 target_compile_options(${LOCALENGINE_SHARED_LIB} PUBLIC -fPIC
-        -Wno-shorten-64-to-32)
+        -Wno-shorten-64-to-32 -fvisibility=hidden)
 
 target_link_libraries (${LOCALENGINE_SHARED_LIB} PRIVATE clickhouse_new_delete _jemalloc ${MALLOC_LIBRARIES})
 
@@ -74,6 +74,8 @@ target_link_libraries(${LOCALENGINE_SHARED_LIB} PUBLIC
         substait_source
         xxHash
 )
+
+target_link_options(${LOCALENGINE_SHARED_LIB} PRIVATE -Wl,--exclude-libs,ALL)
 
 #set(CPACK_PACKAGE_VERSION 0.1.0)
 #set(CPACK_GENERATOR "RPM")
