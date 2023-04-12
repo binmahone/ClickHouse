@@ -59,7 +59,7 @@ add_library(${LOCALENGINE_SHARED_LIB} SHARED
 target_compile_options(${LOCALENGINE_SHARED_LIB} PUBLIC -fPIC
         -Wno-shorten-64-to-32 -fvisibility=hidden)
 
-target_link_libraries (${LOCALENGINE_SHARED_LIB} PRIVATE clickhouse_new_delete)
+target_link_libraries (${LOCALENGINE_SHARED_LIB} PRIVATE clickhouse_new_delete _jemalloc ${MALLOC_LIBRARIES})
 
 target_link_libraries(${LOCALENGINE_SHARED_LIB} PUBLIC
         clickhouse_aggregate_functions
