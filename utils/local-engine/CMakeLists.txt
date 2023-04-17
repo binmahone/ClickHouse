@@ -40,6 +40,48 @@ include_directories(
 add_subdirectory(Storages/ch_parquet)
 add_subdirectory(Storages/SubstraitSource)
 
+
+
+
+add_executable(basictest
+        ${builder_sources}
+        ${parser_sources}
+        ${storages_sources}
+        ${common_sources}
+        ${external_sources}
+        ${shuffle_sources}
+        ${jni_sources}
+        ${substrait_source}
+        ${operator_sources}
+        ${aggregate_functions_sources}
+        ${functions_sources}
+        basic_test.cpp $<TARGET_OBJECTS:clickhouse_malloc>)
+# why add clickhouse_malloc? check clickhouse PR-8046
+
+
+target_compile_options(basictest PUBLIC  # -fPIC
+        -Wno-shorten-64-to-32 )
+
+target_link_libraries (basictest PRIVATE clickhouse_new_delete)
+
+target_link_libraries(basictest PUBLIC
+        clickhouse_aggregate_functions
+        clickhouse_common_config
+        clickhouse_common_io
+        clickhouse_functions
+        clickhouse_parsers
+        clickhouse_storages_system
+        substrait
+        loggers
+        ch_parquet
+        substait_source
+        xxHash
+        )
+
+
+
+
+
 add_library(${LOCALENGINE_SHARED_LIB} SHARED
         ${builder_sources}
         ${parser_sources}
@@ -76,6 +118,11 @@ target_link_libraries(${LOCALENGINE_SHARED_LIB} PUBLIC
 )
 
 target_link_options(${LOCALENGINE_SHARED_LIB} PRIVATE -Wl,--exclude-libs,ALL)
+
+
+
+
+
 
 #set(CPACK_PACKAGE_VERSION 0.1.0)
 #set(CPACK_GENERATOR "RPM")
