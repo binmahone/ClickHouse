@@ -717,11 +717,14 @@ void IMergeTreeDataPart::loadColumnsChecksumsIndexes(bool require_columns_checks
 
         loadDefaultCompressionCodec();
     }
-    catch (...)
+    catch (std::exception & e)
     {
+            LOG_ERROR(storage.log, "e is {}" , e.what());
         /// Don't scare people with broken part error
         if (!isRetryableException(std::current_exception()))
+        {
             LOG_ERROR(storage.log, "Part {} is broken and need manual correction", getDataPartStorage().getFullPath());
+        }
 
         // There could be conditions that data part to be loaded is broken, but some of meta infos are already written
         // into meta data before exception, need to clean them all.
